@@ -1,0 +1,15 @@
+node_modules/
+.next/
+out/
+build/
+.vercel/
+.env*
+!.env.example
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store
+
+# Source media — the mp4 is the input to scripts/frames.sh, not a build artifact.
+# The generated public/frames/ WebPs ARE committed.
+assets/
+*.mp4
