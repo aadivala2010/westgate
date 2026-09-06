@@ -165,9 +165,10 @@ function Contact() {
 
         <div className="mt-20 grid gap-14 lg:grid-cols-2 lg:gap-20">
           <div>
-            <h3 className="display text-2xl text-paper sm:text-3xl">Or leave your details</h3>
+            <h3 className="display text-2xl text-paper sm:text-3xl">Or send us the details</h3>
             <p className="mt-4 mb-10 max-w-[46ch] text-stone">
-              Slower than calling, but it works. We read these in the evening.
+              Fill this in and it opens your own email or messages app with everything written
+              out, ready for you to send.
             </p>
             <ContactForm />
           </div>

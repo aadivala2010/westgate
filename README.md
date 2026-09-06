@@ -146,33 +146,25 @@ Note the current photos are only 476px per half, so the slider is capped at
 
 ## Contact form
 
-`app/api/contact/route.ts` validates the submission, logs it, and emails it
-through Resend.
+There is no backend. The form builds a message from the fields and hands it to
+the visitor's own mail or messages app through a `mailto:` / `sms:` link. They
+press send there, so it goes out from their address or number and lands in their
+sent folder. Nothing to configure, no API key, no third-party service, and no
+route that can quietly stop working.
 
-**It does not send until `RESEND_API_KEY` is set.** With no key the route
-returns a 502 and the form tells the visitor to call or text instead — it does
-not pretend to have delivered. The lead is still written to the function log, so
-nothing is lost, but a log is not an inbox. Do not launch on that.
+Both buttons live in `components/ContactForm.tsx`; the message templates are the
+two arrays in `compose()`.
 
-To turn it on:
+Two things worth knowing:
 
-1. Create a key at <https://resend.com/api-keys>
-2. Set `RESEND_API_KEY` in Vercel (see `.env.example` for the optional
-   `CONTACT_FROM` / `CONTACT_TO` overrides)
-3. Redeploy
+- **A desktop with no mail client configured does nothing when the `mailto:`
+  fires**, silently. The note under the buttons points back at the phone number
+  for exactly this case.
+- The SMS link uses `sms:+1...?&body=`. The `?&` is deliberate — iOS and Android
+  disagree on the separator and this is the form both accept. Do not "tidy" it
+  to `?body=`.
 
-`CONTACT_FROM` has to be a domain verified on the Resend account. Until
-westgatemowing.com is verified, `onboarding@resend.dev` sends fine for testing.
-Leads default to `site.email`.
-
-Resend is called with plain `fetch` rather than the SDK — it is one POST, and a
-dependency for that is not worth carrying.
-
-There is a `TODO(optional)` in the route for also sending an SMS via Twilio, so
-a lead lands on the phone the crew already carries. Same shape as the existing
-fetch.
-
-The call and text links are the primary path regardless, and always work.
+The call and text links elsewhere on the page are the primary path regardless.
 
 ---
 
