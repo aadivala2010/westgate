@@ -31,28 +31,21 @@ export default function ContactForm() {
 
     const data = new FormData(form);
     const get = (key: string) => String(data.get(key) ?? "").trim();
-    const work = get("message") || "Not specified";
+
+    // One template for both channels, so a lead reads the same however it
+    // arrives. Every field is required, so none of these can come out empty.
+    const body = [
+      "Westgate quote request.",
+      `Name: ${get("name")}, Address: ${get("address")}, Number: ${get("phone")},`,
+      `Work needed: ${get("message")}`,
+    ].join("\n");
 
     if (kind === "email") {
-      const subject = `Quote request — ${get("address")}`;
-      const body = [
-        "I would like a quote for my property.",
-        "",
-        `Name: ${get("name")}`,
-        `Address: ${get("address")}`,
-        `Phone: ${get("phone")}`,
-        "",
-        `Work needed: ${work}`,
-      ].join("\n");
+      const subject = `Westgate quote request — ${get("address")}`;
       window.location.href = `mailto:${site.email}?subject=${encodeURIComponent(
         subject,
       )}&body=${encodeURIComponent(body)}`;
     } else {
-      const body = [
-        "Quote request.",
-        `${get("name")}, ${get("address")}, ${get("phone")}.`,
-        `Work needed: ${work}`,
-      ].join("\n");
       // `?&body=` rather than `?body=` or `&body=`: iOS and Android disagree on
       // the separator, and this form is the one both accept.
       window.location.href = `${site.phone.sms}?&body=${encodeURIComponent(body)}`;
