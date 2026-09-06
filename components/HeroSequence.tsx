@@ -3,9 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 import { heroLines, site } from "@/content/site";
 
-const FRAME_COUNT = 90;
-const PRELOAD = 12; // frames that must decode before the sequence is revealed
-const MOBILE_MAX_WIDTH = 767; // below this we serve the 900px set
+const FRAME_COUNT = 64; // keep in step with COUNT in scripts/frames.sh
+const PRELOAD = 8; // frames fetched up front before the rest are streamed
+const MOBILE_MAX_WIDTH = 767; // below this we serve the portrait set
 
 const clamp01 = (n: number) => (n < 0 ? 0 : n > 1 ? 1 : n);
 
@@ -138,7 +138,11 @@ export default function HeroSequence() {
       }
     };
 
-    Promise.all(Array.from({ length: PRELOAD }, (_, i) => load(i))).then(() => {
+    const opening = Array.from({ length: PRELOAD }, (_, i) => load(i));
+    // Swap the poster for the canvas the moment the first frame lands, rather
+    // than making it wait on the whole opening batch.
+    opening[0].then(() => !cancelled && render());
+    Promise.all(opening).then(() => {
       if (cancelled) return;
       render();
       void stream(PRELOAD);

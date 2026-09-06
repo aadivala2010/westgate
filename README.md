@@ -62,16 +62,22 @@ Requires `ffmpeg` on `PATH`. The script produces:
 
 | Output | Size |
 |---|---|
-| `public/frames/f_0001–0090.webp` | 1600×906 landscape, ~5.8 MB total |
-| `public/frames/mobile/f_0001–0090.webp` | 470×1020 portrait, ~2.7 MB total |
-| `public/frames/poster.webp`, `public/frames/mobile/poster.webp` | frame 45, shown until frame 1 loads |
+| `public/frames/f_0001–0064.webp` | 1800×1020 landscape, ~5.8 MB total |
+| `public/frames/mobile/f_0001–0064.webp` | 780×1692 portrait, ~2.9 MB total |
+| `public/frames/poster.webp`, `public/frames/mobile/poster.webp` | the middle frame, shown until frame 1 loads |
 
 **The two sets are framed differently, on purpose.** A phone hero is about 0.46
 aspect, so cover-fitting a landscape frame into it threw away roughly three
 quarters of the width and stretched what was left — around 240px of real detail
-across a 390px viewport. The mobile set is instead a 470px-wide portrait window
-cropped straight out of the 1080p source, so every pixel encoded is a pixel
-shown, at the same byte cost.
+across a 390px viewport. The mobile set is instead a portrait window cropped
+straight out of the 1080p source, so every pixel encoded is a pixel shown.
+
+It is then upscaled to **780px wide, which is not arbitrary**: a 390px phone
+viewport at `devicePixelRatio` 2 (the cap in `HeroSequence`) is exactly 780
+device pixels, so the canvas draws these 1:1 with no browser upscale. The crop
+is 470px of real detail either way — the point is that the upscale happens here,
+once, with lanczos and a sharpening pass, instead of the GPU doing a bilinear
+stretch on every draw. That bilinear stretch is what read as blurry.
 
 That window has to move, because the mower crosses the whole frame. Its path was
 measured off the clip and is linear (`x = 198 + 466*t` in source pixels, `t` from
@@ -85,9 +91,11 @@ letting it through. If a new clip pushes it over, lower `Q_TALL` or `COUNT` unti
 it fits, and update `FRAME_COUNT` in `components/HeroSequence.tsx` to match if
 you change the count.
 
-`Q_WIDE` and `Q_TALL` were picked off a quality sweep, at the knee of each curve
-— going one step higher on either roughly doubles the marginal cost per unit of
-visible quality. The numbers are in a comment in the script.
+`COUNT`, `Q_WIDE` and `Q_TALL` all come from measuring against that budget, not
+from taste, and the numbers are in a comment in the script. The finding worth
+keeping: **resolution beats frame count.** You cannot see individual frames go
+by while scrubbing, but you can very much see a soft image, so at a fixed budget
+the frames are worth spending on pixels. That is why there are 64 and not 90.
 
 Knobs at the top of `scripts/frames.sh`:
 
@@ -99,6 +107,7 @@ Knobs at the top of `scripts/frames.sh`:
 - `RATE` × `COUNT` must cover the usable length of the clip (currently
   24fps × 90 = 3.75s).
 - `TALL_CROP` — the mobile pan. Recalibrate against any new clip.
+- `COUNT` — must match `FRAME_COUNT` in `components/HeroSequence.tsx`.
 
 **After regenerating, look at the frames before shipping.** The script cannot
 tell you whether the crop still clears the watermark or whether the subject is
