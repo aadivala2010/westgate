@@ -7,7 +7,6 @@
 // ---------------------------------------------------------------------------
 export const PLACEHOLDERS = {
   email: "{{email@westgatemowing.com}}",
-  streetAddress: "{{123 Street Name}}",
   addressLocality: "{{Lancaster}}",
   postalCode: "{{17601}}",
   hours: "{{Mon–Sat, 7am–6pm}}",
@@ -32,7 +31,6 @@ export const site = {
   },
   email: PLACEHOLDERS.email,
   address: {
-    street: PLACEHOLDERS.streetAddress,
     locality: PLACEHOLDERS.addressLocality,
     region: "PA",
     postalCode: PLACEHOLDERS.postalCode,

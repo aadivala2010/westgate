@@ -201,7 +201,6 @@ function Contact() {
             {[
               ["Phone", site.phone.display],
               ["Email", site.email],
-              ["Address", `${site.address.street}, ${site.address.locality}, PA ${site.address.postalCode}`],
               ["Hours", site.hours],
             ].map(([label, value]) => (
               <div key={label} className="rule-t flex flex-wrap gap-x-6 gap-y-1 py-4 last:rule-b">

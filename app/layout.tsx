@@ -47,9 +47,10 @@ const jsonLd = {
   email: site.email,
   image: `${site.url}/opengraph-image`,
   priceRange: "$$",
+  // No streetAddress: the site does not publish one. Locality and region are
+  // what carry the local signal for a service-area business.
   address: {
     "@type": "PostalAddress",
-    streetAddress: site.address.street,
     addressLocality: site.address.locality,
     addressRegion: site.address.region,
     postalCode: site.address.postalCode,
