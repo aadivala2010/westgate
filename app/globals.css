@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+/* --------------------------------------------------------------------------
+   Design tokens. The two greens are sampled directly from assets/logo.jpeg
+   (light stroke #6DB26C, dark stroke #4D814B) — do not eyeball replacements.
+   Contrast on --ink: paper 17.6:1, stone 6.5:1, leaf 7.5:1, moss 4.1:1.
+   --moss is structural only (rules, rails, borders): it does not clear 4.5:1
+   and must never carry body text.
+   -------------------------------------------------------------------------- */
+@theme {
+  --color-ink: #0c110d;
+  --color-surface: #141a15;
+  --color-leaf: #6db26c;
+  --color-moss: #4d814b;
+  --color-paper: #f4f5f2;
+  --color-stone: #8e9a8c;
+
+  --font-display: var(--font-instrument-serif), ui-serif, Georgia, serif;
+  --font-sans: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Hairline rules used as section dividers. Kept as a token so the whole site
+   changes together rather than each section inventing its own border. */
+@utility rule-t {
+  border-top: 1px solid color-mix(in oklab, var(--color-stone) 22%, transparent);
+}
+@utility rule-b {
+  border-bottom: 1px solid color-mix(in oklab, var(--color-stone) 22%, transparent);
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Anchored sections must clear the fixed header. */
+  scroll-padding-top: 5rem;
+  background-color: var(--color-ink);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-ink);
+  color: var(--color-paper);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* One focus treatment for the whole site. Visible on every dark surface. */
+:focus-visible {
+  outline: 2px solid var(--color-leaf);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Display face is set large and tight; these are its defaults everywhere. */
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.02;
+}
+
+/* Tabular figures for the phone number so it does not shimmy between weights. */
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -20,6 +20,7 @@ ffmpeg -v error -ss $START -i "$SRC" -vf "$CROP,fps=$RATE,scale=900:-2" -fps_mod
   -c:v libwebp -quality $Q -compression_level 6 -start_number 1 public/frames/mobile/f_%04d.webp
 
 cp public/frames/f_0045.webp public/frames/poster.webp
+cp public/frames/mobile/f_0045.webp public/frames/mobile/poster.webp
 
 echo "desktop: $(ls public/frames/f_*.webp | wc -l) frames, $(du -cb public/frames/f_*.webp | tail -1 | cut -f1) bytes"
 echo "mobile:  $(ls public/frames/mobile/f_*.webp | wc -l) frames, $(du -cb public/frames/mobile/f_*.webp | tail -1 | cut -f1) bytes"
