@@ -62,13 +62,32 @@ Requires `ffmpeg` on `PATH`. The script produces:
 
 | Output | Size |
 |---|---|
-| `public/frames/f_0001–0090.webp` | 1600×906, ~4.6 MB total |
-| `public/frames/mobile/f_0001–0090.webp` | 900×510, ~2.1 MB total |
+| `public/frames/f_0001–0090.webp` | 1600×906 landscape, ~5.8 MB total |
+| `public/frames/mobile/f_0001–0090.webp` | 470×1020 portrait, ~2.7 MB total |
 | `public/frames/poster.webp`, `public/frames/mobile/poster.webp` | frame 45, shown until frame 1 loads |
 
-The mobile set must stay **under 3 MB**. If a new clip pushes it over, lower `Q`
-or `COUNT` in the script until it fits, and update `FRAME_COUNT` in
-`components/HeroSequence.tsx` to match if you change the count.
+**The two sets are framed differently, on purpose.** A phone hero is about 0.46
+aspect, so cover-fitting a landscape frame into it threw away roughly three
+quarters of the width and stretched what was left — around 240px of real detail
+across a 390px viewport. The mobile set is instead a 470px-wide portrait window
+cropped straight out of the 1080p source, so every pixel encoded is a pixel
+shown, at the same byte cost.
+
+That window has to move, because the mower crosses the whole frame. Its path was
+measured off the clip and is linear (`x = 198 + 466*t` in source pixels, `t` from
+`START`); `TALL_CROP` centres the window on that and clamps at the frame edges,
+so the mower holds near centre for most of the scroll and exits right at the end.
+**If you replace the clip, re-measure that line** — a pan calibrated to different
+footage will track nothing. `scripts/frames.sh` documents the arithmetic.
+
+The mobile set must stay **under 3 MB**; the script fails the build rather than
+letting it through. If a new clip pushes it over, lower `Q_TALL` or `COUNT` until
+it fits, and update `FRAME_COUNT` in `components/HeroSequence.tsx` to match if
+you change the count.
+
+`Q_WIDE` and `Q_TALL` were picked off a quality sweep, at the knee of each curve
+— going one step higher on either roughly doubles the marginal cost per unit of
+visible quality. The numbers are in a comment in the script.
 
 Knobs at the top of `scripts/frames.sh`:
 
@@ -79,6 +98,7 @@ Knobs at the top of `scripts/frames.sh`:
   and an unstable treeline along the top.
 - `RATE` × `COUNT` must cover the usable length of the clip (currently
   24fps × 90 = 3.75s).
+- `TALL_CROP` — the mobile pan. Recalibrate against any new clip.
 
 **After regenerating, look at the frames before shipping.** The script cannot
 tell you whether the crop still clears the watermark or whether the subject is
