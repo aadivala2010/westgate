@@ -146,16 +146,33 @@ Note the current photos are only 476px per half, so the slider is capped at
 
 ## Contact form
 
-`app/api/contact/route.ts` validates the submission and **logs it, nothing
-more**. Before launch, wire one or both of:
+`app/api/contact/route.ts` validates the submission, logs it, and emails it
+through Resend.
 
-- **Resend** — email the lead to `site.email`
-- **Twilio** — SMS the lead to `site.phone.e164`
+**It does not send until `RESEND_API_KEY` is set.** With no key the route
+returns a 502 and the form tells the visitor to call or text instead — it does
+not pretend to have delivered. The lead is still written to the function log, so
+nothing is lost, but a log is not an inbox. Do not launch on that.
 
-Both are marked with `TODO(wiring)` in the route, and both need environment
-variables set in Vercel. Until that is done a submitted form is only as durable
-as the function log, so do not launch on it. The call and text links are the
-primary path regardless.
+To turn it on:
+
+1. Create a key at <https://resend.com/api-keys>
+2. Set `RESEND_API_KEY` in Vercel (see `.env.example` for the optional
+   `CONTACT_FROM` / `CONTACT_TO` overrides)
+3. Redeploy
+
+`CONTACT_FROM` has to be a domain verified on the Resend account. Until
+westgatemowing.com is verified, `onboarding@resend.dev` sends fine for testing.
+Leads default to `site.email`.
+
+Resend is called with plain `fetch` rather than the SDK — it is one POST, and a
+dependency for that is not worth carrying.
+
+There is a `TODO(optional)` in the route for also sending an SMS via Twilio, so
+a lead lands on the phone the crew already carries. Same shape as the existing
+fetch.
+
+The call and text links are the primary path regardless, and always work.
 
 ---
 

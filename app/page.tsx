@@ -4,7 +4,7 @@ import ContactForm from "@/components/ContactForm";
 import Header from "@/components/Header";
 import HeroSequence from "@/components/HeroSequence";
 import StickyCallBar from "@/components/StickyCallBar";
-import { services, site, steps, testimonials, towns } from "@/content/site";
+import { services, site, steps, towns } from "@/content/site";
 
 const SECTION = "mx-auto max-w-6xl px-5 sm:px-10";
 
@@ -19,7 +19,6 @@ export default function Home() {
         <Work />
         <Process />
         <Area />
-        <Testimonials />
         <Contact />
       </main>
       <Footer />
@@ -136,31 +135,7 @@ function Area() {
   );
 }
 
-/* --- 6. Testimonials ------------------------------------------------------ */
-function Testimonials() {
-  return (
-    <section className="py-24 sm:py-32">
-      <div className={SECTION}>
-        <ul className="grid gap-12 sm:grid-cols-3 sm:gap-10">
-          {testimonials.map((t) => (
-            <li key={t.quote}>
-              <figure>
-                <blockquote className="display max-w-[34ch] text-2xl text-paper">
-                  {t.quote}
-                </blockquote>
-                <figcaption className="mt-5 text-sm text-stone">
-                  {t.name}, {t.town}
-                </figcaption>
-              </figure>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
-  );
-}
-
-/* --- 7. Contact ----------------------------------------------------------- */
+/* --- 6. Contact ----------------------------------------------------------- */
 function Contact() {
   return (
     <section id="contact" className="rule-t py-24 sm:py-32">

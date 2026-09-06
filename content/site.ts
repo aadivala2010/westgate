@@ -146,34 +146,6 @@ export const towns = [
 
 export type Town = (typeof towns)[number];
 
-// --- Testimonials -----------------------------------------------------------
-// ###########################################################################
-// TODO(client): EVERY QUOTE AND NAME BELOW IS PLACEHOLDER COPY. Replace with
-// real, attributable quotes before launch — inventing testimonials is both a
-// legal and a trust problem. Left unbraced so the page stays presentable in
-// review; this comment is the marker, not the text.
-// ###########################################################################
-export const testimonials = [
-  {
-    quote:
-      "They show up the same day every week and I have stopped thinking about the lawn entirely. That was the whole point.",
-    name: "Dan",
-    town: "Millersville",
-  },
-  {
-    quote:
-      "The edging is what sold me. It looks like someone cared about the property, not like someone cut the grass.",
-    name: "Rachel",
-    town: "Lancaster",
-  },
-  {
-    quote:
-      "Quoted the season up front, held the price, and cleaned up the drive before they left every time.",
-    name: "Tom",
-    town: "Lampeter",
-  },
-] as const;
-
 // --- Top banner -------------------------------------------------------------
 // Static bar above the header. Rendered uppercase, so write it in sentence case.
 export const bannerText = "Free quotes";
