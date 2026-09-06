@@ -178,15 +178,8 @@ export const testimonials = [
 ] as const;
 
 // --- Top banner -------------------------------------------------------------
-// Cycled in a marquee above the header. Keep each item short — they have to
-// read at a glance while moving. Order is the loop order.
-export const bannerItems = [
-  "Free quotes",
-  "No charge for the walk-through",
-  "Weekly through the season",
-  "Lancaster County",
-  "Call or text (717) 538-7526",
-] as const;
+// Static bar above the header. Rendered uppercase, so write it in sentence case.
+export const bannerText = "Free quotes";
 
 // --- Nav --------------------------------------------------------------------
 export const navLinks = [

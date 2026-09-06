@@ -66,25 +66,6 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
-/* Top banner. Two identical halves, so -50% lands exactly on the seam. Pauses
-   on hover and while anything inside has keyboard focus (WCAG 2.2.2), and the
-   reduced-motion block below stops it outright. */
-@keyframes marquee {
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-.marquee {
-  animation: marquee 45s linear infinite;
-  will-change: transform;
-}
-
-.marquee:hover,
-.marquee:focus-within {
-  animation-play-state: paused;
-}
-
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

@@ -1,38 +1,10 @@
 import Link from "next/link";
-import { bannerItems, navLinks, site } from "@/content/site";
+import { bannerText, navLinks, site } from "@/content/site";
 
-/**
- * The one piece of unprompted motion on the site, so it is kept thin, slow and
- * escapable: it pauses on hover and on keyboard focus, and the global
- * prefers-reduced-motion rule in globals.css freezes it outright. Two identical
- * halves scrolled by exactly -50% make the loop seamless; the second is hidden
- * from assistive tech so the copy is not announced twice.
- */
 function QuoteBanner() {
   return (
-    <div className="flex h-9 items-center overflow-hidden border-b border-moss/40 bg-surface">
-      <div className="marquee flex w-max items-center">
-        {[0, 1].map((half) => (
-          <div
-            key={half}
-            aria-hidden={half === 1 || undefined}
-            className="flex shrink-0 items-center"
-          >
-            {/* The list is doubled inside each half so one repeat unit is wider
-                than the viewport. A repeat narrower than the screen leaves a
-                visible gap at the wrap. Currently ~2400px, which covers
-                everything short of an ultrawide. */}
-            {[...bannerItems, ...bannerItems].map((item, i) => (
-              <span
-                key={`${item}-${i}`}
-                className="border-r border-stone/20 px-8 text-[0.68rem] tracking-[0.14em] whitespace-nowrap text-stone uppercase"
-              >
-                {item}
-              </span>
-            ))}
-          </div>
-        ))}
-      </div>
+    <div className="flex h-9 items-center justify-center border-b border-moss/40 bg-surface">
+      <span className="text-[0.68rem] tracking-[0.18em] text-stone uppercase">{bannerText}</span>
     </div>
   );
 }
