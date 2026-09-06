@@ -6,7 +6,6 @@
 // Search the repo for `{{` to find any that leaked elsewhere.
 // ---------------------------------------------------------------------------
 export const PLACEHOLDERS = {
-  email: "{{email@westgatemowing.com}}",
   addressLocality: "{{Lancaster}}",
   postalCode: "{{17601}}",
   hours: "{{Mon–Sat, 7am–6pm}}",
@@ -29,7 +28,7 @@ export const site = {
     tel: `tel:${PHONE_E164}`,
     sms: `sms:${PHONE_E164}`,
   },
-  email: PLACEHOLDERS.email,
+  email: "areed.quinn@gmail.com",
   address: {
     locality: PLACEHOLDERS.addressLocality,
     region: "PA",

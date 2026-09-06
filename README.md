@@ -25,7 +25,6 @@ the top of `content/site.ts` under `PLACEHOLDERS`:
 
 | Placeholder | What it is |
 |---|---|
-| `email` | Public contact address |
 | `addressLocality`, `postalCode` | Used in the `LocalBusiness` JSON-LD. No street address is published anywhere on the site. |
 | `hours` | Human-readable hours shown in the contact block |
 | `openingHoursSpec` | The same hours in schema.org format (e.g. `Mo-Sa 07:00-18:00`) |
