@@ -1,5 +1,41 @@
 import Link from "next/link";
-import { navLinks, site } from "@/content/site";
+import { bannerItems, navLinks, site } from "@/content/site";
+
+/**
+ * The one piece of unprompted motion on the site, so it is kept thin, slow and
+ * escapable: it pauses on hover and on keyboard focus, and the global
+ * prefers-reduced-motion rule in globals.css freezes it outright. Two identical
+ * halves scrolled by exactly -50% make the loop seamless; the second is hidden
+ * from assistive tech so the copy is not announced twice.
+ */
+function QuoteBanner() {
+  return (
+    <div className="flex h-9 items-center overflow-hidden border-b border-moss/40 bg-surface">
+      <div className="marquee flex w-max items-center">
+        {[0, 1].map((half) => (
+          <div
+            key={half}
+            aria-hidden={half === 1 || undefined}
+            className="flex shrink-0 items-center"
+          >
+            {/* The list is doubled inside each half so one repeat unit is wider
+                than the viewport. A repeat narrower than the screen leaves a
+                visible gap at the wrap. Currently ~2400px, which covers
+                everything short of an ultrawide. */}
+            {[...bannerItems, ...bannerItems].map((item, i) => (
+              <span
+                key={`${item}-${i}`}
+                className="border-r border-stone/20 px-8 text-[0.68rem] tracking-[0.14em] whitespace-nowrap text-stone uppercase"
+              >
+                {item}
+              </span>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 /**
  * Server component. The mobile menu is a <details> element rather than React
@@ -7,8 +43,10 @@ import { navLinks, site } from "@/content/site";
  */
 export default function Header() {
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-stone/15 bg-ink/85 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-5 sm:px-10">
+    <header className="fixed inset-x-0 top-0 z-50">
+      <QuoteBanner />
+      <div className="flex h-16 border-b border-stone/15 bg-ink/85 backdrop-blur-md">
+      <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-5 sm:px-10">
         <Link href="/" className="flex items-center gap-3">
           {/* TODO(client): swap for a transparent PNG/SVG and drop the chip.
               The supplied logo is a JPEG with a baked white background. */}
@@ -66,7 +104,7 @@ export default function Header() {
           </summary>
           <nav
             aria-label="Primary"
-            className="fixed inset-x-0 top-16 border-b border-stone/15 bg-ink px-5 pt-2 pb-6"
+            className="fixed inset-x-0 top-25 border-b border-stone/15 bg-ink px-5 pt-2 pb-6"
           >
             {navLinks.map((l) => (
               <a
@@ -85,6 +123,7 @@ export default function Header() {
             </a>
           </nav>
         </details>
+        </div>
       </div>
     </header>
   );

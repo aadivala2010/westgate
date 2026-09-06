@@ -184,6 +184,15 @@ Type is Instrument Serif for display (set large and tight) and Archivo for body
 and UI, both via `next/font`. The logo wordmark is a heavy geometric sans; the
 page deliberately does not try to match it.
 
-Motion is limited to the hero scrub plus user-initiated state changes (the
-mobile menu, the comparison slider). `prefers-reduced-motion` is respected
-globally in `app/globals.css` and specifically in the hero.
+Motion is limited to the hero scrub, the top banner, and user-initiated state
+changes (the mobile menu, the comparison slider). `prefers-reduced-motion` is
+respected globally in `app/globals.css` and specifically in the hero.
+
+The banner is a CSS-only marquee cycling `bannerItems` from `content/site.ts`.
+It pauses on hover and on keyboard focus, and freezes entirely under
+reduced-motion. Two constraints if you edit it: the two halves must stay
+identical (the animation translates by exactly `-50%`), and one repeat unit has
+to be wider than the viewport or a gap appears at the wrap — which is why the
+item list is doubled inside each half. The banner is 36px and the header bar
+64px, so anything positioned against the header assumes a total of 100px
+(`scroll-padding-top` is 7rem, the mobile menu opens at `top-25`).

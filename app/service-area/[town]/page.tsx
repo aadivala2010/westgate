@@ -39,7 +39,7 @@ export default async function TownPage({ params }: Props) {
   return (
     <>
       <Header />
-      <main id="main" className="mx-auto max-w-6xl px-5 pt-32 pb-24 sm:px-10 sm:pt-40 sm:pb-32">
+      <main id="main" className="mx-auto max-w-6xl px-5 pt-36 pb-24 sm:px-10 sm:pt-44 sm:pb-32">
         <nav aria-label="Breadcrumb" className="mb-10 text-sm text-stone">
           <Link href="/" className="transition-colors hover:text-leaf">
             {site.name}

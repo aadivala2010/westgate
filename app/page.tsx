@@ -36,11 +36,6 @@ function Services() {
         <h2 className="display max-w-[16ch] text-4xl text-paper sm:text-5xl lg:text-6xl">
           What we do
         </h2>
-        <p className="mt-6 max-w-[52ch] text-stone">
-          Four things, done properly, on a schedule. If you need something that is not on this
-          list, ask when you call.
-        </p>
-
         <ul className="mt-14 sm:mt-20">
           {services.map((s) => (
             <li
@@ -174,8 +169,8 @@ function Contact() {
           Pricing happens on the phone
         </h2>
         <p className="mt-6 max-w-[52ch] text-stone">
-          Every property is different, so we quote after we have seen it. Call or text and we will
-          set up a walk-through.
+          Every property is different, so we quote after we have seen it. The walk-through and
+          the quote are free. Call or text and we will set one up.
         </p>
 
         <div className="mt-10 flex flex-col gap-4 sm:flex-row">
