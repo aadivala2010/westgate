@@ -4,17 +4,50 @@ import { hero, site } from "@/content/site";
    1600×900 stage, slice-fitted, so it stays sharp at any viewport or DPR —
    which the frame sequence it replaced could not do.
 
+   The mowing pass is scroll-driven, but there is no JavaScript here: the hero
+   is a native `view-timeline` and the mower, the cut mask and the progress rail
+   are three CSS animations bound to it (see `globals.css`). Where scroll
+   timelines are not supported, or motion is not wanted, the markup's own
+   attributes stand as the end state: lawn cut, mower parked off-frame.
+
    Perspective: every stripe is a triangle from the bottom edge to the vanishing
    point, so the convergence is real rather than eyeballed. */
 const VP = { x: 800, y: 372 } as const; // vanishing point, sitting on the horizon
 const STRIPES = 17;
 const SPAN = { from: -900, to: 2500 } as const; // stripe fan at the bottom edge
+const GROUND = 742; // y the mower's wheels ride on
 
 const stripes = Array.from({ length: STRIPES }, (_, i) => {
   const w = (SPAN.to - SPAN.from) / STRIPES;
   const x = SPAN.from + i * w;
   return { key: i, points: `${x},900 ${x + w},900 ${VP.x},${VP.y}`, cut: i % 2 === 0 };
 });
+
+/** Riding mower in silhouette, drawn around its own origin at wheel height. */
+function Mower() {
+  return (
+    <g className="hero-mower" transform="translate(1720 0)">
+      <g transform={`translate(0 ${GROUND})`}>
+        {/* Clippings thrown out of the deck, behind the machine. */}
+        <g fill="#6db26c" fillOpacity="0.35">
+          <circle cx="-104" cy="-6" r="5" />
+          <circle cx="-126" cy="-18" r="3.5" />
+          <circle cx="-118" cy="6" r="3" />
+        </g>
+
+        <g fill="#080d09" stroke="#6db26c" strokeOpacity="0.45" strokeWidth="2">
+          <rect x="-78" y="-30" width="150" height="34" rx="7" /> {/* deck */}
+          <rect x="14" y="-58" width="52" height="30" rx="6" /> {/* engine */}
+          <rect x="-46" y="-38" width="42" height="10" rx="4" /> {/* seat base */}
+          <rect x="-42" y="-80" width="17" height="44" rx="5" /> {/* seat back */}
+          <path d="M30 -58 L48 -84 M36 -84 H60" strokeLinecap="round" fill="none" /> {/* wheel */}
+          <circle cx="-50" cy="10" r="24" /> {/* rear wheel */}
+          <circle cx="52" cy="14" r="19" /> {/* front wheel */}
+        </g>
+      </g>
+    </g>
+  );
+}
 
 function Scene() {
   return (
@@ -23,7 +56,7 @@ function Scene() {
       preserveAspectRatio="xMidYMid slice"
       className="absolute inset-0 h-full w-full"
       role="img"
-      aria-label="Illustration of a lawn mowed in alternating stripes, running to a tree line at dusk."
+      aria-label="Illustration of a mower cutting a lawn into stripes, running to a tree line at dusk."
     >
       <defs>
         <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
@@ -54,6 +87,12 @@ function Scene() {
           <stop offset="55%" stopColor="#0c110d" stopOpacity="0.55" />
           <stop offset="100%" stopColor="#0c110d" stopOpacity="0.94" />
         </linearGradient>
+
+        {/* Everything the mower has already passed. The rect's width is what
+            scroll actually animates; the attribute below is the finished state. */}
+        <mask id="cut">
+          <rect className="hero-cut" width="1600" height="900" fill="#fff" />
+        </mask>
       </defs>
 
       <rect width="1600" height="380" fill="url(#sky)" />
@@ -67,17 +106,25 @@ function Scene() {
       />
 
       <rect y="372" width="1600" height="528" fill="url(#turf)" />
-      {stripes.map((s) => (
-        <polygon
-          key={s.key}
-          points={s.points}
-          fill={s.cut ? "#6db26c" : "#0c110d"}
-          fillOpacity={s.cut ? 0.11 : 0.16}
-        />
-      ))}
+
+      {/* Uncut grass is the flat turf above; the stripes only exist inside the
+          mask, so the cut follows the machine across the field. */}
+      <g mask="url(#cut)">
+        {stripes.map((s) => (
+          <polygon
+            key={s.key}
+            points={s.points}
+            fill={s.cut ? "#6db26c" : "#0c110d"}
+            fillOpacity={s.cut ? 0.11 : 0.16}
+          />
+        ))}
+      </g>
+
       <rect y="372" width="1600" height="230" fill="url(#haze)" />
       {/* The mower's last pass: one lit edge where the deck left the grass. */}
       <path d="M0 380 H1600" stroke="#6db26c" strokeOpacity="0.28" strokeWidth="2" />
+
+      <Mower />
 
       <rect y="380" width="1600" height="520" fill="url(#scrim)" />
     </svg>
@@ -86,30 +133,36 @@ function Scene() {
 
 export default function Hero() {
   return (
-    <section aria-label={site.name} className="relative flex min-h-svh flex-col justify-end overflow-hidden bg-ink">
-      <Scene />
+    <section aria-label={site.name} className="hero relative bg-ink">
+      <div className="hero-stage relative flex min-h-svh flex-col justify-end overflow-hidden">
+        <Scene />
 
-      <div className="relative px-5 pt-40 pb-20 sm:px-10 sm:pb-28">
-        <div className="mx-auto max-w-6xl">
-          <h1 className="display max-w-[15ch] text-[2.9rem] text-paper sm:text-6xl lg:max-w-[17ch] lg:text-7xl">
-            {hero.headline}
-          </h1>
-          <p className="mt-6 max-w-[46ch] text-lg text-stone sm:mt-8">{hero.lede}</p>
+        <div className="relative px-5 pt-40 pb-20 sm:px-10 sm:pb-28">
+          <div className="mx-auto max-w-6xl">
+            <h1 className="display max-w-[15ch] text-[2.9rem] text-paper sm:text-6xl lg:max-w-[17ch] lg:text-7xl">
+              {hero.headline}
+            </h1>
+            <p className="mt-6 max-w-[46ch] text-lg text-stone sm:mt-8">{hero.lede}</p>
 
-          <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <a
-              href={site.phone.tel}
-              className="flex min-h-14 items-center justify-center bg-leaf px-7 text-lg font-medium text-ink transition-colors hover:bg-paper"
-            >
-              Call <span className="tnum ml-2">{site.phone.display}</span>
-            </a>
-            <a
-              href="#contact"
-              className="flex min-h-14 items-center justify-center border border-stone/40 px-7 text-lg font-medium text-paper transition-colors hover:border-leaf hover:text-leaf"
-            >
-              Get a free quote
-            </a>
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <a
+                href={site.phone.tel}
+                className="flex min-h-14 items-center justify-center bg-leaf px-7 text-lg font-medium text-ink transition-colors hover:bg-paper"
+              >
+                Call <span className="tnum ml-2">{site.phone.display}</span>
+              </a>
+              <a
+                href="#contact"
+                className="flex min-h-14 items-center justify-center border border-stone/40 px-7 text-lg font-medium text-paper transition-colors hover:border-leaf hover:text-leaf"
+              >
+                Get a free quote
+              </a>
+            </div>
           </div>
+        </div>
+
+        <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-px bg-stone/25">
+          <div className="hero-rail h-px origin-left scale-x-0 bg-leaf" />
         </div>
       </div>
     </section>

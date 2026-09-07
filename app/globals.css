@@ -78,3 +78,79 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* --------------------------------------------------------------------------
+   The hero mowing pass. Scroll drives it through a native view timeline, so
+   there is no scroll listener, no rAF loop and no client component: the hero
+   section is the timeline subject and `contain` is exactly the span where it
+   fills the viewport, which is exactly the span where its stage is stuck.
+
+   Progressive enhancement, both ways round. Without scroll-timeline support,
+   or with reduced motion asked for, none of this applies: the hero is one
+   viewport tall, and the SVG's own attributes are already the finished state —
+   lawn cut, mower off-frame.
+   -------------------------------------------------------------------------- */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hero {
+      height: 300svh;
+      view-timeline: --hero block;
+    }
+
+    .hero-stage {
+      position: sticky;
+      top: 0;
+      height: 100svh;
+    }
+
+    .hero-cut,
+    .hero-mower,
+    .hero-rail {
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: --hero;
+      animation-range: contain 0% contain 100%;
+    }
+
+    /* The three run on one timeline, so the cut edge, the machine and the rail
+       cannot drift out of step with each other. */
+    .hero-cut {
+      animation-name: hero-cut;
+    }
+    .hero-mower {
+      animation-name: hero-mower;
+    }
+    .hero-rail {
+      animation-name: hero-rail;
+    }
+  }
+}
+
+/* Widths and transforms in user units: the SVG stage is 1600 wide. */
+@keyframes hero-cut {
+  from {
+    width: 0;
+  }
+  to {
+    width: 1600px;
+  }
+}
+
+@keyframes hero-mower {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(1600px);
+  }
+}
+
+@keyframes hero-rail {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}

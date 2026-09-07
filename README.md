@@ -53,10 +53,18 @@ Other things marked `TODO(client)` in the source:
 `components/Hero.tsx` draws the hero scene as a single inline SVG — a striped
 lawn in one-point perspective under a tree line — so it is resolution
 independent, ships no image bytes and needs no JavaScript. Geometry knobs are
-the constants at the top of the file (`VP`, `STRIPES`, `SPAN`); colours are the
-gradient stops, which use the same tokens as the rest of the site.
+the constants at the top of the file (`VP`, `STRIPES`, `SPAN`, `GROUND`);
+colours are the gradient stops, which use the same tokens as the rest of the
+site.
 
-The scroll-scrubbed video frame sequence it replaced is gone, along with
+Scrolling drives the mow: the mower crosses the field, the stripes appear
+behind it and the progress rail fills. That is three CSS animations on one
+native `view-timeline` declared in `globals.css`, not a scroll listener — the
+hero is a server component. Browsers without scroll timelines, and anyone who
+asks for reduced motion, get a one-viewport hero showing the finished state,
+which is what the SVG's own attributes say.
+
+The scroll-scrubbed video frame sequence this replaced is gone, along with
 `scripts/frames.sh` and the 9 MB of WebP stills in `public/frames/`.
 
 ## Adding a service-area town
