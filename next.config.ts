@@ -4,8 +4,8 @@ const config: NextConfig = {
   async headers() {
     return [
       {
-        // The hero footage never mutates in place; a new cut gets a new filename.
-        source: "/hero.:ext(mp4|webm)",
+        // The hero image never mutates in place; new artwork gets a new filename.
+        source: "/lawn.webp",
         headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
       },
     ];

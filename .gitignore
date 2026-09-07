@@ -13,7 +13,6 @@ next-env.d.ts
 # The generated public/frames/ WebPs ARE committed.
 assets/
 *.mp4
-!public/hero.mp4
 
 # Next.js writes these for AI agents on dev start; not part of the site.
 AGENTS.md

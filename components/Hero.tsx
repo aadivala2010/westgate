@@ -1,35 +1,25 @@
 import { heroLines, site } from "@/content/site";
 
 /**
- * Looping hero video under a dark scrim. No scroll wiring, no client component:
- * the browser's own autoplay/loop attributes do all of it.
- *
- * `muted` and `playsInline` are not decoration — without both, mobile Safari and
- * Chrome refuse to autoplay at all. The poster covers the gap before the first
- * frame decodes, so the section is never a black hole on a slow connection.
+ * Full-bleed hero still under a dark scrim. No video, no scroll wiring, no
+ * client component — the whole section is one image and two gradients.
  */
 export default function Hero() {
   return (
     <section aria-label={site.name} className="relative flex min-h-svh flex-col justify-end overflow-hidden bg-ink">
-      <video
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
         className="absolute inset-0 h-full w-full object-cover"
-        poster="/hero-poster.webp"
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="auto"
+        src="/lawn.webp"
+        alt=""
         aria-hidden="true"
-      >
-        {/* VP9 first: grass is fine high-contrast detail, the hardest thing
-            there is to compress, and VP9 holds it at roughly half h.264's size.
-            The mp4 is the fallback for anything that will not take WebM. */}
-        <source src="/hero.webm" type="video/webm" />
-        <source src="/hero.mp4" type="video/mp4" />
-      </video>
+        width={3840}
+        height={2559}
+        fetchPriority="high"
+      />
 
       {/* Shading. Weighted to the bottom where the copy sits, with a light wash
-          over the whole frame so white type holds up against moving footage. */}
+          over the whole frame so white type holds up against the photograph. */}
       <div
         aria-hidden="true"
         className="absolute inset-0"
