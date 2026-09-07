@@ -13,15 +13,20 @@ export default function Hero() {
     <section aria-label={site.name} className="relative flex min-h-svh flex-col justify-end overflow-hidden bg-ink">
       <video
         className="absolute inset-0 h-full w-full object-cover"
-        src="/hero.mp4"
         poster="/hero-poster.webp"
         autoPlay
         loop
         muted
         playsInline
-        preload="metadata"
+        preload="auto"
         aria-hidden="true"
-      />
+      >
+        {/* VP9 first: grass is fine high-contrast detail, the hardest thing
+            there is to compress, and VP9 holds it at roughly half h.264's size.
+            The mp4 is the fallback for anything that will not take WebM. */}
+        <source src="/hero.webm" type="video/webm" />
+        <source src="/hero.mp4" type="video/mp4" />
+      </video>
 
       {/* Shading. Weighted to the bottom where the copy sits, with a light wash
           over the whole frame so white type holds up against moving footage. */}

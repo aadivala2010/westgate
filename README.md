@@ -50,18 +50,23 @@ Other things marked `TODO(client)` in the source:
 
 ## The hero video
 
-`public/hero.mp4` is a muted, looping background video behind a dark scrim. It
-is encoded from `assets/grass.mp4` (gitignored source media, 1080p and 46 MB)
-down to something a phone will actually load:
+A muted, looping background video behind a dark scrim. It ships in two encodes
+from `assets/grass.mp4` (gitignored source media, 1080p, 46 MB), both at native
+1920×1080 — grass is fine high-contrast detail, the hardest thing there is to
+compress, and it falls apart if you scale it down or lean on the quantiser:
 
 ```bash
-ffmpeg -i assets/grass.mp4 -an -vf scale=1280:-2 -c:v libx264 -crf 30   -preset slow -pix_fmt yuv420p -g 60 -movflags +faststart public/hero.mp4
-ffmpeg -i assets/grass.mp4 -frames:v 1 -vf scale=1280:-2 -q:v 80 public/hero-poster.webp
+# VP9, served first. Roughly half the size of h.264 at the same quality.
+ffmpeg -i assets/grass.mp4 -an -c:v libvpx-vp9 -crf 28 -b:v 0 -row-mt 1   -cpu-used 3 -pix_fmt yuv420p public/hero.webm
+# h.264 fallback for anything that will not take WebM.
+ffmpeg -i assets/grass.mp4 -an -c:v libx264 -crf 20 -preset slow   -pix_fmt yuv420p -g 60 -movflags +faststart public/hero.mp4
+# Poster, shown until the first frame decodes.
+ffmpeg -i assets/grass.mp4 -frames:v 1 -q:v 92 public/hero-poster.webp
 ```
 
-That lands at ~1.9 MB. `-movflags +faststart` puts the index at the front so
-playback can begin before the file finishes downloading, and the poster covers
-the first frame's decode. Re-encode and commit both files to change the footage.
+That lands at ~1.8 MB WebM and ~12.7 MB mp4. `-movflags +faststart` puts the
+mp4 index at the front so playback can start before the download finishes.
+Re-encode and commit all three files to change the footage.
 
 ## Adding a service-area town
 
