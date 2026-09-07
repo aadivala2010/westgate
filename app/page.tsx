@@ -2,7 +2,7 @@ import Link from "next/link";
 import Compare from "@/components/Compare";
 import ContactForm from "@/components/ContactForm";
 import Header from "@/components/Header";
-import Hero from "@/components/Hero";
+import HeroSequence from "@/components/HeroSequence";
 import StickyCallBar from "@/components/StickyCallBar";
 import { services, site, steps, towns } from "@/content/site";
 
@@ -13,7 +13,7 @@ export default function Home() {
     <>
       <Header />
       <main id="main">
-        <Hero />
+        <HeroSequence />
         <div id="hero-end" aria-hidden="true" />
         <Services />
         <Work />

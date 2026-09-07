@@ -40,11 +40,13 @@ export const site = {
 } as const;
 
 // --- Hero -------------------------------------------------------------------
-export const hero = {
-  headline: "A lawn people notice.",
-  lede:
-    "Cut on a schedule, edged by hand, cleaned up before we leave. Lancaster County, every week of the season.",
-} as const;
+// `at` is scroll progress through the hero container, 0–1. Lines cross-fade in
+// and out around these points.
+export const heroLines = [
+  { at: 0.06, text: "A lawn people notice." },
+  { at: 0.42, text: "Cut on a schedule, edged by hand, cleaned up before we leave." },
+  { at: 0.78, text: "Lancaster County, every week of the season." },
+] as const;
 
 // --- Services ---------------------------------------------------------------
 export const services = [
