@@ -15,7 +15,7 @@ import { hero, site } from "@/content/site";
 const VP = { x: 800, y: 372 } as const; // vanishing point, sitting on the horizon
 const STRIPES = 17;
 const SPAN = { from: -900, to: 2500 } as const; // stripe fan at the bottom edge
-const GROUND = 742; // y the mower's wheels ride on
+const GROUND = 760; // y the mower's wheels ride on
 
 const stripes = Array.from({ length: STRIPES }, (_, i) => {
   const w = (SPAN.to - SPAN.from) / STRIPES;
@@ -23,27 +23,35 @@ const stripes = Array.from({ length: STRIPES }, (_, i) => {
   return { key: i, points: `${x},900 ${x + w},900 ${VP.x},${VP.y}`, cut: i % 2 === 0 };
 });
 
-/** Riding mower in silhouette, drawn around its own origin at wheel height. */
+/* Mower: Tabler Icons `lawn-mower`, MIT (tabler.io/icons). The icon is a 24×24
+   line drawing, so it is blown up ~8× and its stroke divided back down — at
+   scale the 2-unit icon stroke would land as a 16px slab. Drawn around x=0 at
+   wheel height, which is where the cut mask's edge is, so the stripes appear
+   exactly under the deck. */
+const SCALE = 8;
+const ICON = { midX: 12, groundY: 20 } as const; // icon-space centre line and wheel bottom
+
 function Mower() {
   return (
-    <g className="hero-mower" transform="translate(1720 0)">
-      <g transform={`translate(0 ${GROUND})`}>
-        {/* Clippings thrown out of the deck, behind the machine. */}
-        <g fill="#6db26c" fillOpacity="0.35">
-          <circle cx="-104" cy="-6" r="5" />
-          <circle cx="-126" cy="-18" r="3.5" />
-          <circle cx="-118" cy="6" r="3" />
-        </g>
+    <g className="hero-mower" transform="translate(1760 0)">
+      {/* Clippings thrown out behind the machine. */}
+      <g fill="#6db26c" fillOpacity="0.3">
+        <circle cx="-128" cy={GROUND - 10} r="5" />
+        <circle cx="-152" cy={GROUND - 26} r="3.5" />
+        <circle cx="-142" cy={GROUND + 4} r="3" />
+      </g>
 
-        <g fill="#080d09" stroke="#6db26c" strokeOpacity="0.45" strokeWidth="2">
-          <rect x="-78" y="-30" width="150" height="34" rx="7" /> {/* deck */}
-          <rect x="14" y="-58" width="52" height="30" rx="6" /> {/* engine */}
-          <rect x="-46" y="-38" width="42" height="10" rx="4" /> {/* seat base */}
-          <rect x="-42" y="-80" width="17" height="44" rx="5" /> {/* seat back */}
-          <path d="M30 -58 L48 -84 M36 -84 H60" strokeLinecap="round" fill="none" /> {/* wheel */}
-          <circle cx="-50" cy="10" r="24" /> {/* rear wheel */}
-          <circle cx="52" cy="14" r="19" /> {/* front wheel */}
-        </g>
+      <g
+        transform={`translate(${-ICON.midX * SCALE} ${GROUND - ICON.groundY * SCALE}) scale(${SCALE})`}
+        fill="none"
+        stroke="#6db26c"
+        strokeWidth={0.7}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M6 11h5.38a1 1 0 0 1 .9.55L13 13h5a1 1 0 0 1 1 1v2" />
+        <path d="M3 4h1.13a1 1 0 0 1 1 .86L6.72 16M17 18H9" />
+        <path d="M9 18a2 2 0 1 1-4 0a2 2 0 0 1 4 0m12 0a2 2 0 1 1-4 0a2 2 0 0 1 4 0" />
       </g>
     </g>
   );

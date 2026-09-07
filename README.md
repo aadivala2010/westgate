@@ -57,6 +57,9 @@ the constants at the top of the file (`VP`, `STRIPES`, `SPAN`, `GROUND`);
 colours are the gradient stops, which use the same tokens as the rest of the
 site.
 
+The mower itself is Tabler Icons' `lawn-mower` (MIT), inlined and restyled to
+the leaf stroke rather than pulled in as a dependency.
+
 Scrolling drives the mow: the mower crosses the field, the stripes appear
 behind it and the progress rail fills. That is three CSS animations on one
 native `view-timeline` declared in `globals.css`, not a scroll listener — the
