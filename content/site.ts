@@ -3,13 +3,16 @@
 
 // ---------------------------------------------------------------------------
 // PLACEHOLDERS — everything the client still needs to confirm lives here.
-// Search the repo for `{{` to find any that leaked elsewhere.
+// Every value here reaches the page as-is, so keep them presentable.
 // ---------------------------------------------------------------------------
+// These render verbatim — in the contact block and in the LocalBusiness JSON-LD
+// Google reads — so they hold plausible values rather than `{{braces}}`. Confirm
+// each with the client and edit in place.
 export const PLACEHOLDERS = {
-  addressLocality: "{{Lancaster}}",
-  postalCode: "{{17601}}",
-  hours: "{{Mon–Sat, 7am–6pm}}",
-  openingHoursSpec: "{{Mo-Sa 07:00-18:00}}", // schema.org openingHours format
+  addressLocality: "Lancaster",
+  postalCode: "17601",
+  hours: "Mon–Sat, 7am–6pm",
+  openingHoursSpec: "Mo-Sa 07:00-18:00", // schema.org openingHours format
 } as const;
 
 // TODO(client): replace public/logo-mark.png with a transparent PNG or SVG.
@@ -151,10 +154,14 @@ export type Town = (typeof towns)[number];
 export const bannerText = "Free quotes";
 
 // --- Nav --------------------------------------------------------------------
+// Root-relative, not bare fragments: the header also renders on the town pages,
+// where these sections do not exist. From "/" the browser treats "/#services" as
+// a same-document jump (smooth scroll, no reload); from a town page it goes home
+// and lands on the section.
 export const navLinks = [
-  { href: "#services", label: "What we do" },
-  { href: "#work", label: "The work" },
-  { href: "#process", label: "How it works" },
-  { href: "#area", label: "Service area" },
-  { href: "#contact", label: "Contact" },
+  { href: "/#services", label: "What we do" },
+  { href: "/#work", label: "The work" },
+  { href: "/#process", label: "How it works" },
+  { href: "/#area", label: "Service area" },
+  { href: "/#contact", label: "Contact" },
 ] as const;

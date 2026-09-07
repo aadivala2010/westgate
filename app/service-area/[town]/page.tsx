@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { services, site, steps, towns } from "@/content/site";
 
@@ -115,6 +116,7 @@ export default async function TownPage({ params }: Props) {
           ))}
         </ul>
       </main>
+      <Footer />
     </>
   );
 }

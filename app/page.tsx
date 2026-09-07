@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Compare from "@/components/Compare";
 import ContactForm from "@/components/ContactForm";
+import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import StickyCallBar from "@/components/StickyCallBar";
@@ -188,30 +189,5 @@ function Contact() {
         </div>
       </div>
     </section>
-  );
-}
-
-/* --- Footer --------------------------------------------------------------- */
-function Footer() {
-  return (
-    <footer className="rule-t bg-surface py-14 pb-28 md:pb-14">
-      <div className={`${SECTION} flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between`}>
-        <div>
-          <p className="display text-2xl text-paper">{site.name}</p>
-          <p className="mt-2 max-w-[40ch] text-sm text-stone">{site.tagline}</p>
-        </div>
-        <nav aria-label="Service area" className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
-          {towns.map((t) => (
-            <Link
-              key={t.slug}
-              href={`/service-area/${t.slug}`}
-              className="text-stone transition-colors hover:text-leaf"
-            >
-              {t.name}
-            </Link>
-          ))}
-        </nav>
-      </div>
-    </footer>
   );
 }

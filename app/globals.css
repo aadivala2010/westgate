@@ -28,8 +28,12 @@
   border-bottom: 1px solid color-mix(in oklab, var(--color-stone) 22%, transparent);
 }
 
+/* No `scroll-behavior: smooth` here on purpose. Chrome applies it to the scroll
+   the browser performs for a fragment in the URL, and that animation loses to
+   the hero image loading and to hydration — so /#contact, whether it arrives
+   from a town-page nav link, a bookmark or a search result, lands at the top of
+   the page instead of the section. Instant jumps land every time. */
 html {
-  scroll-behavior: smooth;
   /* Anchored sections must clear the banner (36px) plus the header bar (64px). */
   scroll-padding-top: 7rem;
   background-color: var(--color-ink);
@@ -67,9 +71,6 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
   *,
   *::before,
   *::after {
