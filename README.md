@@ -48,90 +48,20 @@ Other things marked `TODO(client)` in the source:
 
 ---
 
-## Regenerating the hero frame sequence
+## The hero video
 
-The hero is a scroll-scrubbed canvas playing 90 WebP stills. The source video
-lives in `assets/mowing.mp4`, which is **gitignored** — the generated frames in
-`public/frames/` are what is committed.
+`public/hero.mp4` is a muted, looping background video behind a dark scrim. It
+is encoded from `assets/grass.mp4` (gitignored source media, 1080p and 46 MB)
+down to something a phone will actually load:
 
 ```bash
-bash scripts/frames.sh      # or: npm run frames
+ffmpeg -i assets/grass.mp4 -an -vf scale=1280:-2 -c:v libx264 -crf 30   -preset slow -pix_fmt yuv420p -g 60 -movflags +faststart public/hero.mp4
+ffmpeg -i assets/grass.mp4 -frames:v 1 -vf scale=1280:-2 -q:v 80 public/hero-poster.webp
 ```
 
-Requires `ffmpeg` on `PATH`. The script produces:
-
-| Output | Size |
-|---|---|
-| `public/frames/f_0001–0064.webp` | 1800×1020 landscape, ~5.8 MB total |
-| `public/frames/mobile/f_0001–0064.webp` | 780×1692 portrait, ~2.9 MB total |
-| `public/frames/poster.webp`, `public/frames/mobile/poster.webp` | the middle frame, shown until frame 1 loads |
-
-**The two sets are framed differently, on purpose.** A phone hero is about 0.46
-aspect, so cover-fitting a landscape frame into it threw away roughly three
-quarters of the width and stretched what was left — around 240px of real detail
-across a 390px viewport. The mobile set is instead a portrait window cropped
-straight out of the 1080p source, so every pixel encoded is a pixel shown.
-
-It is then upscaled to **780px wide, which is not arbitrary**: a 390px phone
-viewport at `devicePixelRatio` 2 (the cap in `HeroSequence`) is exactly 780
-device pixels, so the canvas draws these 1:1 with no browser upscale. The crop
-is 470px of real detail either way — the point is that the upscale happens here,
-once, with lanczos and a sharpening pass, instead of the GPU doing a bilinear
-stretch on every draw. That bilinear stretch is what read as blurry.
-
-That window has to move, because the mower crosses the whole frame. Its path was
-measured off the clip and is linear (`x = 198 + 466*t` in source pixels, `t` from
-`START`); `TALL_CROP` centres the window on that and clamps at the frame edges,
-so the mower holds near centre for most of the scroll and exits right at the end.
-**If you replace the clip, re-measure that line** — a pan calibrated to different
-footage will track nothing. `scripts/frames.sh` documents the arithmetic.
-
-The mobile set must stay **under 3 MB**; the script fails the build rather than
-letting it through. If a new clip pushes it over, lower `Q_TALL` or `COUNT` until
-it fits, and update `FRAME_COUNT` in `components/HeroSequence.tsx` to match if
-you change the count.
-
-`COUNT`, `Q_WIDE` and `Q_TALL` all come from measuring against that budget, not
-from taste, and the numbers are in a comment in the script. The finding worth
-keeping: **resolution beats frame count.** You cannot see individual frames go
-by while scrubbing, but you can very much see a soft image, so at a fixed budget
-the frames are worth spending on pixels. That is why there are 64 and not 90.
-
-Knobs at the top of `scripts/frames.sh`:
-
-- `START` — the current clip has ~1.2s of empty grass before the mower enters
-  frame, so extraction starts at 1.15s. A different clip will need a different
-  value.
-- `CROP` — `1800×1020` at offset `120,60`, which removes a watermark on the left
-  and an unstable treeline along the top.
-- `RATE` × `COUNT` must cover the usable length of the clip (currently
-  24fps × 90 = 3.75s).
-- `TALL_CROP` — the mobile pan. Recalibrate against any new clip.
-- `COUNT` — must match `FRAME_COUNT` in `components/HeroSequence.tsx`.
-
-**After regenerating, look at the frames before shipping.** The script cannot
-tell you whether the crop still clears the watermark or whether the subject is
-in shot for the whole sequence.
-
-### How the hero works
-
-`components/HeroSequence.tsx`: a ~320svh container with a `position: sticky`
-full-viewport canvas inside it. Scroll progress through the container maps to a
-frame index; drawing is cover-fit at `devicePixelRatio` capped at 2, throttled
-through `requestAnimationFrame`, never synchronous in the scroll handler. The
-first 12 frames are preloaded before the sequence takes over from the poster;
-the remaining 78 stream in sequentially.
-
-Viewports under 768px get the 900px set via a `matchMedia` check on the source
-path. With `prefers-reduced-motion: reduce` the container collapses to one
-viewport height, no scroll listener is attached, and a single static frame is
-drawn.
-
-One note if you touch the loader: it uses the image `load` event rather than
-`img.decode()`. `decode()` is the more obvious API and it can hang forever on a
-detached `<img>` in Chrome, which deadlocks the whole preload.
-
----
+That lands at ~1.9 MB. `-movflags +faststart` puts the index at the front so
+playback can begin before the file finishes downloading, and the poster covers
+the first frame's decode. Re-encode and commit both files to change the footage.
 
 ## Adding a service-area town
 
