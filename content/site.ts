@@ -48,22 +48,37 @@ export const heroLines = [
 ] as const;
 
 // --- Services ---------------------------------------------------------------
+// Photos are 800x600 out of scripts/images.sh; keep any replacement at 4:3.
 export const services = [
   {
-    title: "Mowing",
+    title: "Lawn mowing",
+    image: "/services/mowing.webp",
+    alt: "A push mower part-way across a big front lawn, the cut half a shade lighter than the rest.",
     body: "Cut at a height that suits the grass and the time of year. Stripes run a different direction each visit so the turf does not lean.",
   },
   {
-    title: "Edging and trimming",
-    body: "Beds, walks, drives and fence lines cut by hand. This is the difference between a lawn that has been mowed and a lawn that has been finished.",
+    title: "Leaf removal",
+    image: "/services/leaf.webp",
+    alt: "A backpack blower clearing a thick layer of yellow leaves off a lawn.",
+    body: "Off the grass before it mats down and kills what is underneath, and out of the beds and the gutter line while I am there.",
   },
   {
-    title: "Spring and fall cleanup",
-    body: "Leaves, winter debris and bed edges at the two points in the year when a property either gets ahead or falls behind.",
+    title: "Snow removal",
+    image: "/services/snow.webp",
+    alt: "A two-stage snow blower throwing snow off a cleared driveway after a storm.",
+    body: "Drives, walks and steps cleared after a storm so you can get the car out and nobody goes down on the path.",
   },
   {
-    title: "Hedge and shrub trimming",
+    title: "Hedge trimming",
+    image: "/services/hedge.webp",
+    alt: "A hedge trimmer running along the top of a low, dense border hedge.",
     body: "Shaped to the plant rather than sheared flat, cut back far enough to keep foundation plantings off the windows and the walk.",
+  },
+  {
+    title: "Edging",
+    image: "/services/edging.webp",
+    alt: "A wheeled edger cutting a clean line where the lawn meets a concrete walk.",
+    body: "Beds, walks, drives and fence lines cut by hand. This is the difference between a lawn that has been mowed and a lawn that has been finished.",
   },
 ] as const;
 

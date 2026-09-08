@@ -28,7 +28,7 @@ export default function Home() {
   );
 }
 
-/* --- 2. What I do -------------------------------------------------------- */
+/* --- 2. What I do --------------------------------------------------------- */
 function Services() {
   return (
     <section id="services" className="py-24 sm:py-32">
@@ -36,14 +36,21 @@ function Services() {
         <h2 className="display max-w-[16ch] text-4xl text-paper sm:text-5xl lg:text-6xl">
           What I do
         </h2>
-        <ul className="mt-14 sm:mt-20">
+        <ul className="mt-14 grid gap-x-8 gap-y-12 sm:mt-20 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((s) => (
-            <li
-              key={s.title}
-              className="rule-t grid gap-3 py-8 sm:grid-cols-[minmax(0,15rem)_minmax(0,1fr)] sm:gap-10 sm:py-12 last:rule-b"
-            >
-              <h3 className="display text-2xl text-paper sm:text-3xl">{s.title}</h3>
-              <p className="max-w-[62ch] text-stone">{s.body}</p>
+            <li key={s.title}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={s.image}
+                alt={s.alt}
+                width={800}
+                height={600}
+                loading="lazy"
+                decoding="async"
+                className="aspect-[4/3] w-full bg-surface object-cover"
+              />
+              <h3 className="display mt-5 text-2xl text-paper">{s.title}</h3>
+              <p className="mt-3 text-stone">{s.body}</p>
             </li>
           ))}
         </ul>
