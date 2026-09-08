@@ -3,12 +3,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import { services, site, steps, towns } from "@/content/site";
+import { services, site, steps, townPages } from "@/content/site";
 
 type Props = { params: Promise<{ town: string }> };
 
 export function generateStaticParams() {
-  return towns.map((t) => ({ town: t.slug }));
+  return townPages.map((t) => ({ town: t.slug }));
 }
 
 // Nothing is dynamic here, so anything off the town list is a 404 rather than
@@ -17,7 +17,7 @@ export const dynamicParams = false;
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { town: slug } = await params;
-  const town = towns.find((t) => t.slug === slug);
+  const town = townPages.find((t) => t.slug === slug);
   if (!town) return {};
   return {
     title: `Lawn Mowing in ${town.name}, PA`,
@@ -32,10 +32,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function TownPage({ params }: Props) {
   const { town: slug } = await params;
-  const town = towns.find((t) => t.slug === slug);
+  const town = townPages.find((t) => t.slug === slug);
   if (!town) notFound();
 
-  const others = towns.filter((t) => t.slug !== town.slug);
+  const others = townPages.filter((t) => t.slug !== town.slug);
 
   return (
     <>

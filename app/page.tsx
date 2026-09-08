@@ -108,28 +108,54 @@ function Area() {
     <section id="area" className="bg-surface py-24 sm:py-32">
       <div className={SECTION}>
         <h2 className="display max-w-[18ch] text-4xl text-paper sm:text-5xl lg:text-6xl">
-          Lancaster and the townships around it
+          Areas we service
         </h2>
         <p className="mt-6 max-w-[52ch] text-stone">
           We work a tight radius on purpose. A short drive between properties is what keeps the
           schedule honest.
         </p>
 
-        <ul className="mt-12 sm:mt-16">
-          {towns.map((t) => (
-            <li key={t.slug} className="rule-t last:rule-b">
-              <Link
-                href={`/service-area/${t.slug}`}
-                className="display flex min-h-16 items-center py-5 text-2xl text-paper transition-colors hover:text-leaf sm:text-3xl"
-              >
-                {t.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <div className="mt-12 grid gap-12 sm:mt-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,480px)] lg:gap-16">
+          {/* Two columns of names rather than one row each: the list is long
+              enough that full-width rows would run past the map. */}
+          <ul className="rule-b grid grid-cols-1 gap-x-10 sm:grid-cols-2">
+            {towns.map((t) => (
+              <li key={t.slug} className="rule-t">
+                {t.blurb ? (
+                  <Link
+                    href={`/service-area/${t.slug}`}
+                    className="display flex min-h-14 items-center py-3 text-xl text-paper transition-colors hover:text-leaf sm:text-2xl"
+                  >
+                    {t.name}
+                  </Link>
+                ) : (
+                  <span className="display flex min-h-14 items-center py-3 text-xl text-paper sm:text-2xl">
+                    {t.name}
+                  </span>
+                )}
+              </li>
+            ))}
+          </ul>
 
-        <p className="mt-8 text-sm text-stone">
-          Just outside the list? Call and ask — we will tell you straight either way.
+          <figure className="lg:sticky lg:top-28 lg:self-start">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/areas.webp"
+              alt="Satellite map of northern Lancaster County with a circle drawn around Brownstown, reaching Lititz and East Petersburg to the north west, New Holland and Blue Ball to the east, and Lancaster city and Leola to the south."
+              width={900}
+              height={900}
+              loading="lazy"
+              decoding="async"
+              className="w-full"
+            />
+            <figcaption className="mt-4 text-sm text-stone">
+              Centred on Brownstown, out to Lancaster city one way and New Holland the other.
+            </figcaption>
+          </figure>
+        </div>
+
+        <p className="mt-10 text-sm text-stone">
+          Just outside the circle? Call and ask — we will tell you straight either way.
         </p>
       </div>
     </section>

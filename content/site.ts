@@ -106,36 +106,40 @@ export const steps = [
 ] as const;
 
 // --- Service area -----------------------------------------------------------
-// TODO(client): confirm the full service radius. These four are the starting
-// set; adding a town here generates its page, sitemap entry and JSON-LD entry.
-export const towns = [
+// The radius on the map in public/areas.webp, centred on Brownstown. A town
+// only gets its own page, sitemap entry and internal links once it has a
+// blurb; the rest are listed on the home page and in the JSON-LD areaServed.
+export type Town = { slug: string; name: string; blurb?: string };
+
+export const towns: readonly Town[] = [
+  { slug: "brownstown", name: "Brownstown" },
+  { slug: "akron", name: "Akron" },
+  { slug: "leola", name: "Leola" },
+  { slug: "ephrata", name: "Ephrata" },
+  { slug: "rothsville", name: "Rothsville" },
+  { slug: "lititz", name: "Lititz" },
+  { slug: "bird-in-hand", name: "Bird-in-Hand" },
+  { slug: "smoketown", name: "Smoketown" },
+  { slug: "witmer", name: "Witmer" },
+  { slug: "stevens", name: "Stevens" },
+  { slug: "east-petersburg", name: "East Petersburg" },
   {
     slug: "lancaster",
     name: "Lancaster",
     blurb:
       "Most city work is a matter of access. Row-home strips off Chestnut and Prince run narrow and are shaded hard by mature street trees, so the grass is thin and wants a higher cut than a suburban lawn. The larger lots out toward School Lane Hills and Chestnut Hill are the opposite problem: open, fast-growing, and obvious to the whole street when they get away from you.",
   },
-  {
-    slug: "millersville",
-    name: "Millersville",
-    blurb:
-      "A lot of Millersville is rental property within walking distance of the university, and those lawns tend to be judged by the landlord and the borough rather than by the tenant. We keep them cut on a fixed weekly day through the season so nobody has to think about it. Borough lots are compact, and the trimming around walks and porch steps is most of the work.",
-  },
-  {
-    slug: "manor-township",
-    name: "Manor Township",
-    blurb:
-      "West of the city the parcels open up: half an acre and well past it, often with a long road frontage and a septic field to mow around. That is a different job from a city lot. More open sun, faster growth through May and June, and enough ground that skipping a week shows. We size the crew and the deck to the property rather than the other way around.",
-  },
-  {
-    slug: "lampeter",
-    name: "Lampeter",
-    blurb:
-      "Lampeter properties tend to sit against working farmland, which means wind, full exposure, and seed blowing in from the field next door. Weed pressure along the back edge is the thing to stay ahead of here. Long road frontages also mean the strip along the shoulder is the part everyone actually sees.",
-  },
-] as const;
+  { slug: "new-holland", name: "New Holland" },
+  { slug: "blue-ball", name: "Blue Ball" },
+  { slug: "reamstown", name: "Reamstown" },
+  { slug: "hopeland", name: "Hopeland" },
+  { slug: "farmersville", name: "Farmersville" },
+  { slug: "talmage", name: "Talmage" },
+  { slug: "intercourse", name: "Intercourse" },
+  { slug: "paradise", name: "Paradise" },
+];
 
-export type Town = (typeof towns)[number];
+export const townPages = towns.filter((t) => t.blurb);
 
 // --- Top banner -------------------------------------------------------------
 // Static bar above the header. Rendered uppercase, so write it in sentence case.

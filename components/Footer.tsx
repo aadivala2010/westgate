@@ -18,16 +18,22 @@ export default function Footer() {
             Call <span className="tnum">{site.phone.display}</span>
           </a>
         </div>
-        <nav aria-label="Service area" className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
-          {towns.map((t) => (
-            <Link
-              key={t.slug}
-              href={`/service-area/${t.slug}`}
-              className="text-stone transition-colors hover:text-leaf"
-            >
-              {t.name}
-            </Link>
-          ))}
+        <nav aria-label="Service area" className="flex flex-wrap gap-x-6 gap-y-2 text-sm sm:max-w-[30rem] sm:justify-end">
+          {towns.map((t) =>
+            t.blurb ? (
+              <Link
+                key={t.slug}
+                href={`/service-area/${t.slug}`}
+                className="text-stone transition-colors hover:text-leaf"
+              >
+                {t.name}
+              </Link>
+            ) : (
+              <span key={t.slug} className="text-stone">
+                {t.name}
+              </span>
+            ),
+          )}
         </nav>
       </div>
     </footer>
