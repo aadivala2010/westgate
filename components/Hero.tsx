@@ -10,11 +10,11 @@ export default function Hero() {
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         className="absolute inset-0 h-full w-full object-cover"
-        src="/lawn.webp"
+        src="/bg.webp"
         alt=""
         aria-hidden="true"
-        width={3840}
-        height={2559}
+        width={1170}
+        height={1533}
         fetchPriority="high"
       />
 

@@ -39,11 +39,10 @@ export default function Compare() {
         </div>
       )}
 
-      {/* Capped at roughly the source resolution. The supplied photos are only
-          476px per half, and stretching them across a desktop column makes the
-          work look worse than it is. */}
+      {/* The photos are portrait, so the cap is on width to keep the frame
+          from running taller than the viewport on a desktop column. */}
       <div
-        className="relative w-full max-w-[620px] overflow-hidden bg-surface select-none"
+        className="relative w-full max-w-[420px] overflow-hidden bg-surface select-none"
         style={{ aspectRatio: `${pair.width} / ${pair.height}` }}
       >
         {workPairs.map((p, i) => (

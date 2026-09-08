@@ -79,25 +79,13 @@ export const workPairs = [
     id: "ba1",
     before: "/work/ba1-before.webp",
     after: "/work/ba1-after.webp",
-    width: 476,
-    height: 280,
-    label: "Front lawn on a columned property",
+    width: 760,
+    height: 1336,
+    label: "Overgrown shrub along a back fence",
     beforeAlt:
-      "Front lawn overgrown with clover and broadleaf weeds, uneven in height, in front of a white columned porch.",
+      "A shrub grown out over the lawn and into a fence line, its branches hanging low over a tarp laid on the grass.",
     afterAlt:
-      "The same front lawn cut short and evenly, with clean mowing stripes running toward the tree line.",
-  },
-  {
-    id: "ba2",
-    before: "/work/ba2-before.webp",
-    after: "/work/ba2-after.webp",
-    width: 476,
-    height: 280,
-    label: "Fenced back yard",
-    beforeAlt:
-      "Patchy back yard along a wooden privacy fence, with bare soil, weeds and an unkempt bed line.",
-    afterAlt:
-      "The same back yard mowed to an even green with a defined bed edge along the fence.",
+      "The same shrub cut back to its shape, the fence and the bed behind it clear again, with the clippings piled on the tarp.",
   },
 ] as const;
 

@@ -5,7 +5,7 @@ const config: NextConfig = {
     return [
       {
         // The hero image never mutates in place; new artwork gets a new filename.
-        source: "/lawn.webp",
+        source: "/bg.webp",
         headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
       },
     ];

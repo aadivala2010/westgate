@@ -1,12 +1,15 @@
 #!/usr/bin/env bash
-# Splits the supplied side-by-side before/after composites in assets/ into
-# separate halves for the comparison slider. Run from the repo root.
-# The source JPEGs are 960x359 with a 5px divider at x=477 and a baked-in
-# caption bar below y=302 — both are cropped away.
+# Encodes the supplied before/after photos in assets/ for the comparison slider.
+# Run from the repo root. The two shots are handheld, so they differ by a few
+# pixels in height — both are cropped to the shorter one and scaled to the same
+# size, otherwise the wipe would not stay registered.
 set -euo pipefail
 
-for n in 1 2; do
-  ffmpeg -v error -i "assets/ba$n.jpg" -vf "crop=w=476:h=280:x=0:y=0"   -quality 82 -y "public/work/ba$n-before.webp"
-  ffmpeg -v error -i "assets/ba$n.jpg" -vf "crop=w=476:h=280:x=482:y=0" -quality 82 -y "public/work/ba$n-after.webp"
+for n in 1; do
+  for half in b:before a:after; do
+    ffmpeg -v error -i "assets/${half%%:*}$n.jpeg" \
+      -vf "crop=1170:2057:0:0,scale=760:-1" -quality 72 -y \
+      "public/work/ba$n-${half##*:}.webp"
+  done
 done
 ls -l public/work/*.webp
