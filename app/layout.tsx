@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     template: `%s — ${site.name}`,
   },
   description:
-    "Weekly mowing, hand edging, and seasonal cleanup for properties in Lancaster, Pennsylvania and the surrounding townships. Call or text for a quote.",
+    "Mowing, hand edging, hedge trimming and seasonal cleanup for properties in Lancaster, Pennsylvania and the towns around it. One man, call or text for a quote.",
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -56,7 +56,6 @@ const jsonLd = {
     postalCode: site.address.postalCode,
     addressCountry: site.address.country,
   },
-  openingHours: site.openingHours,
   areaServed: towns.map((t) => ({
     "@type": "City",
     name: `${t.name}, PA`,

@@ -28,13 +28,13 @@ export default function Home() {
   );
 }
 
-/* --- 2. What we do -------------------------------------------------------- */
+/* --- 2. What I do -------------------------------------------------------- */
 function Services() {
   return (
     <section id="services" className="py-24 sm:py-32">
       <div className={SECTION}>
         <h2 className="display max-w-[16ch] text-4xl text-paper sm:text-5xl lg:text-6xl">
-          What we do
+          What I do
         </h2>
         <ul className="mt-14 sm:mt-20">
           {services.map((s) => (
@@ -61,8 +61,7 @@ function Work() {
           The work
         </h2>
         <p className="mt-6 mb-12 max-w-[52ch] text-stone">
-          Same property, same angle. Drag the handle across to see the difference a season on the
-          schedule makes.
+          Same corner, same angle, before and after. Drag the handle across to see it.
         </p>
         <Compare />
       </div>
@@ -108,11 +107,11 @@ function Area() {
     <section id="area" className="bg-surface py-24 sm:py-32">
       <div className={SECTION}>
         <h2 className="display max-w-[18ch] text-4xl text-paper sm:text-5xl lg:text-6xl">
-          Areas we service
+          Areas I service
         </h2>
         <p className="mt-6 max-w-[52ch] text-stone">
-          We work a tight radius on purpose. A short drive between properties is what keeps the
-          schedule honest.
+          I work a tight radius on purpose. Short drives between properties are what keep the day
+          honest.
         </p>
 
         <div className="mt-12 grid gap-12 sm:mt-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,480px)] lg:gap-16">
@@ -155,7 +154,7 @@ function Area() {
         </div>
 
         <p className="mt-10 text-sm text-stone">
-          Just outside the circle? Call and ask — we will tell you straight either way.
+          Just outside the circle? Call and ask — I will tell you straight either way.
         </p>
       </div>
     </section>
@@ -171,8 +170,8 @@ function Contact() {
           Pricing happens on the phone
         </h2>
         <p className="mt-6 max-w-[52ch] text-stone">
-          Every property is different, so we quote after we have seen it. The walk-through and
-          the quote are free. Call or text and we will set one up.
+          Every property is different, so I price it once I have seen it — usually from the photos
+          you send. The quote is free either way. Call or text and I will get you one.
         </p>
 
         <div className="mt-10 flex flex-col gap-4 sm:flex-row">
@@ -192,7 +191,7 @@ function Contact() {
 
         <div className="mt-20 grid gap-14 lg:grid-cols-2 lg:gap-20">
           <div>
-            <h3 className="display text-2xl text-paper sm:text-3xl">Or send us the details</h3>
+            <h3 className="display text-2xl text-paper sm:text-3xl">Or send me the details</h3>
             <p className="mt-4 mb-10 max-w-[46ch] text-stone">
               Fill this in and it opens your own email or messages app with everything written
               out, ready for you to send.
@@ -204,7 +203,6 @@ function Contact() {
             {[
               ["Phone", site.phone.display],
               ["Email", site.email],
-              ["Hours", site.hours],
             ].map(([label, value]) => (
               <div key={label} className="rule-t flex flex-wrap gap-x-6 gap-y-1 py-4 last:rule-b">
                 <dt className="w-24 shrink-0 text-stone">{label}</dt>

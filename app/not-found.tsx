@@ -15,7 +15,7 @@ export default function NotFound() {
           That page is not here
         </h1>
         <p className="mt-8 max-w-[52ch] text-lg text-stone">
-          The link may be old, or the town may not be one we cover. Either way, call and ask — we
+          The link may be old, or the town may not be one I cover. Either way, call and ask — I
           will tell you straight.
         </p>
 

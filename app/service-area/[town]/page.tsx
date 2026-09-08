@@ -12,7 +12,7 @@ export function generateStaticParams() {
 }
 
 // Nothing is dynamic here, so anything off the town list is a 404 rather than
-// a rendered page for a place we do not serve.
+// a rendered page for a place I do not serve.
 export const dynamicParams = false;
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!town) return {};
   return {
     title: `Lawn Mowing in ${town.name}, PA`,
-    description: `Weekly mowing, hand edging and seasonal cleanup in ${town.name}, Pennsylvania. Call or text ${site.phone.display} for a quote.`,
+    description: `Mowing, hand edging, hedge trimming and seasonal cleanup in ${town.name}, Pennsylvania. Call or text ${site.phone.display} for a quote.`,
     alternates: { canonical: `/service-area/${town.slug}` },
     openGraph: {
       title: `Lawn Mowing in ${town.name}, PA — ${site.name}`,
@@ -73,7 +73,7 @@ export default async function TownPage({ params }: Props) {
         </div>
 
         <h2 className="display mt-24 text-3xl text-paper sm:mt-32 sm:text-4xl">
-          What we do in {town.name}
+          What I do in {town.name}
         </h2>
         <ul className="mt-10">
           {services.map((s) => (
@@ -101,7 +101,7 @@ export default async function TownPage({ params }: Props) {
         </ol>
 
         <h2 className="display mt-24 text-3xl text-paper sm:mt-32 sm:text-4xl">
-          We also work in
+          I also work in
         </h2>
         <ul className="mt-8 flex flex-wrap gap-x-8 gap-y-3">
           {others.map((t) => (

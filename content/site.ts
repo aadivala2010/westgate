@@ -11,8 +11,6 @@
 export const PLACEHOLDERS = {
   addressLocality: "Lancaster",
   postalCode: "17601",
-  hours: "Mon–Sat, 7am–6pm",
-  openingHoursSpec: "Mo-Sa 07:00-18:00", // schema.org openingHours format
 } as const;
 
 // TODO(client): replace public/logo-mark.png with a transparent PNG or SVG.
@@ -38,8 +36,6 @@ export const site = {
     postalCode: PLACEHOLDERS.postalCode,
     country: "US",
   },
-  hours: PLACEHOLDERS.hours,
-  openingHours: PLACEHOLDERS.openingHoursSpec,
 } as const;
 
 // --- Hero -------------------------------------------------------------------
@@ -47,15 +43,15 @@ export const site = {
 // and out around these points.
 export const heroLines = [
   { at: 0.06, text: "A lawn people notice." },
-  { at: 0.42, text: "Cut on a schedule, edged by hand, cleaned up before we leave." },
-  { at: 0.78, text: "Lancaster County, every week of the season." },
+  { at: 0.42, text: "Cut clean, edged by hand, tidied up before I leave." },
+  { at: 0.78, text: "One man, Lancaster County, work you can point at." },
 ] as const;
 
 // --- Services ---------------------------------------------------------------
 export const services = [
   {
-    title: "Weekly mowing",
-    body: "The same crew, the same day each week, at a height that suits the grass and the season. Stripes run a different direction each visit so the turf does not lean.",
+    title: "Mowing",
+    body: "Cut at a height that suits the grass and the time of year. Stripes run a different direction each visit so the turf does not lean.",
   },
   {
     title: "Edging and trimming",
@@ -67,7 +63,7 @@ export const services = [
   },
   {
     title: "Hedge and shrub trimming",
-    body: "Shaped to the plant rather than sheared flat, on a schedule that keeps foundation plantings off the windows and the walk.",
+    body: "Shaped to the plant rather than sheared flat, cut back far enough to keep foundation plantings off the windows and the walk.",
   },
 ] as const;
 
@@ -93,15 +89,15 @@ export const workPairs = [
 export const steps = [
   {
     title: "Call or text",
-    body: "Tell us the address and roughly what you are after. A text with a photo is plenty to start.",
+    body: "Tell me the address and roughly what you are after. A text with a couple of photos is plenty to start.",
   },
   {
-    title: "We walk the property",
-    body: "We come out, look at the grade, the beds, the gates and the trees, and quote a price for the season. No charge for the visit.",
+    title: "I price it",
+    body: "Most of the time your photos are enough for me to give you a price. If the property is large or awkward, or I cannot see enough from the pictures, I drive out and walk it. Either way there is no charge for the quote.",
   },
   {
-    title: "You are on the schedule",
-    body: "A fixed day each week. You will know when we are coming, and you will know when we have been.",
+    title: "I show up and do it",
+    body: "You will know the day I am coming, and you will know when I have been. Same again whenever you want it done.",
   },
 ] as const;
 
@@ -151,7 +147,7 @@ export const bannerText = "Free quotes";
 // a same-document jump (smooth scroll, no reload); from a town page it goes home
 // and lands on the section.
 export const navLinks = [
-  { href: "/#services", label: "What we do" },
+  { href: "/#services", label: "What I do" },
   { href: "/#work", label: "The work" },
   { href: "/#process", label: "How it works" },
   { href: "/#area", label: "Service area" },

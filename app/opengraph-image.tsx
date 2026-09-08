@@ -56,7 +56,7 @@ export default async function Image() {
               letterSpacing: -2,
             }}
           >
-            <div>Weekly mowing in</div>
+            <div>Lawn and yard care in</div>
             <div>Lancaster, Pennsylvania</div>
           </div>
           <div style={{ marginTop: 34, fontSize: 32, color: "#8E9A8C" }}>
